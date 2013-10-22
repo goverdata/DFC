@@ -3,4 +3,32 @@
   <groupId>DFC</groupId>
   <artifactId>DFC</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  
+  <repositories>
+		<repository>
+			<id>github-repo-releases</id>
+			<url>https://raw.github.com/zangxiaoqiang/MiniMavenRepo/master/releases</url>
+		</repository>
+	</repositories>
+	
+
+	<dependencies>
+		<dependency>
+			<groupId>com.github.zangxiaoqiang</groupId>
+			<artifactId>MiniCommon</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4</artifactId>
+			<version>1.4.7</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-mockito</artifactId>
+			<version>1.4.7</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 </project>

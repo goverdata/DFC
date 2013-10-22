@@ -60,23 +60,6 @@ static Random ran = new Random();
 		List<Node> allNodes = test.getNodes(NODE_COUNT);
 		KetamaNodeLocator locator = new KetamaNodeLocator(allNodes, HashAlgorithm.KETAMA_HASH, VIRTUAL_NODE_COUNT);
 		Node server = locator.getPrimary("/tmp/johnny/11122.txt");
-		/*List<String> allKeys = test.getAllStrings();
-		for (String key : allKeys) {
-			Node node = locator.getPrimary(key);
-			
-			Integer times = nodeRecord.get(node);
-			if (times == null) {
-				nodeRecord.put(node, 1);
-			} else {
-				nodeRecord.put(node, times + 1);
-			}
-		}
-		
-		System.out.println("Nodes count : " + NODE_COUNT + ", Keys count : " + EXE_TIMES + ", Normal percent : " + (float) 100 / NODE_COUNT + "%");
-		System.out.println("-------------------- boundary  ----------------------");
-		for (Map.Entry<Node, Integer> entry : nodeRecord.entrySet()) {
-			System.out.println("Node name :" + entry.getKey() + " - Times : " + entry.getValue() + " - Percent : " + (float)entry.getValue() / EXE_TIMES * 100 + "%");
-		}*/
 		System.out.println("Node name :" + server.getName());
 	}
 }

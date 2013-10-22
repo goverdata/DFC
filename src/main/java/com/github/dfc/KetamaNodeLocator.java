@@ -41,6 +41,7 @@ public final class KetamaNodeLocator {
 			// } else {
 			// key = tailMap.firstKey();
 			// }
+			
 			// For JDK1.6 version
 			key = ketamaNodes.ceilingKey(key);
 			if (key == null) {
