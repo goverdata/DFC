@@ -1,5 +1,8 @@
 package com.github.io;
 
-public class Server {
-
+public interface Server {
+	public void start();
+	
+	public void stop();
+	
 }

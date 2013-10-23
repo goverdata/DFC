@@ -1,9 +1,14 @@
 package com.github.dfc.server;
 
-public class DataXceiverServer extends Thread{
+import java.net.Socket;
 
+import com.github.io.Handler;
+import com.github.io.bio.BioTcpServer;
+
+public class DataXceiverServer extends BioTcpServer{
+	
 	@Override
-	public void run(){
-		
+	public Handler getHandler(Socket socket){
+		return new DataXceiver(socket);
 	}
 }
