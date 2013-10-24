@@ -16,7 +16,7 @@ public final class KetamaNodeLocator {
 		numReps = nodeCopies;
 		for (Node node : nodes) {
 			for (int i = 0; i < numReps / 4; i++) {
-				byte[] md5 = hashAlg.computeMd5(node.getName() + i);
+				byte[] md5 = hashAlg.computeMd5(node.getHostname() + i);
 				for (int h = 0; h < 4; h++) {
 					long m = hashAlg.hash(md5, h);
 					ketamaNodes.put(m, node);

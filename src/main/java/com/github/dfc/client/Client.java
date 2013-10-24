@@ -1,14 +1,19 @@
 package com.github.dfc.client;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import com.github.dfc.HashAlgorithm;
 import com.github.dfc.KetamaNodeLocator;
 import com.github.dfc.Node;
+import com.github.dfc.protocol.DataTransferProtocol;
 
 public class Client {
 static Random ran = new Random();
@@ -51,7 +56,7 @@ static Random ran = new Random();
 		return sb.toString();
 	}*/
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws UnknownHostException, IOException {
 		Client test = new Client();
 		
 		/** Records the times of locating node*/
@@ -60,6 +65,20 @@ static Random ran = new Random();
 		List<Node> allNodes = test.getNodes(NODE_COUNT);
 		KetamaNodeLocator locator = new KetamaNodeLocator(allNodes, HashAlgorithm.KETAMA_HASH, VIRTUAL_NODE_COUNT);
 		Node server = locator.getPrimary("/tmp/johnny/11122.txt");
-		System.out.println("Node name :" + server.getName());
+		System.out.println("Node name :" + server.getHostname());
+		
+		
+		Socket socket = new Socket(server.getHostname(), server.getPort());
+		DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+		out.write(DataTransferProtocol.VERSION);
+		DataTransferProtocol.Op.READ_FILE.write(out);
+		out.write("/tmp/johnny/11122.txt".getBytes());
+		out.flush();
+		BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		String line = reader.readLine();
+		while(line != null){
+			System.out.println(line);
+			line = reader.readLine();
+		}
 	}
 }
