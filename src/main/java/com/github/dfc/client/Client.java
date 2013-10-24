@@ -25,16 +25,7 @@ static Random ran = new Random();
 	
 	private static final Integer VIRTUAL_NODE_COUNT = 160;
 	
-	private List<Node> getNodes(int nodeCount) {
-		List<Node> nodes = new ArrayList<Node>();
-		
-		for (int k = 1; k <= nodeCount; k++) {
-			Node node = new Node("node" + k);
-			nodes.add(node);
-		}
-		
-		return nodes;
-	}
+	
 	
 	/*private List<String> getAllStrings() {
 		List<String> allStrings = new ArrayList<String>(EXE_TIMES);
@@ -57,14 +48,8 @@ static Random ran = new Random();
 	}*/
 
 	public static void main(String[] args) throws UnknownHostException, IOException {
-		Client test = new Client();
-		
-		/** Records the times of locating node*/
-		//Map<Node, Integer> nodeRecord = new HashMap<Node, Integer>();
-		
-		List<Node> allNodes = test.getNodes(NODE_COUNT);
-		KetamaNodeLocator locator = new KetamaNodeLocator(allNodes, HashAlgorithm.KETAMA_HASH, VIRTUAL_NODE_COUNT);
-		Node server = locator.getPrimary("/tmp/johnny/11122.txt");
+		KetamaNodeLocator locator = new KetamaNodeLocator(HashAlgorithm.KETAMA_HASH, VIRTUAL_NODE_COUNT);
+		Node server = locator.getPrimary("/tmp/aaa.txt");
 		System.out.println("Node name :" + server.getHostname());
 		
 		

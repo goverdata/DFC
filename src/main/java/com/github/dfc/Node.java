@@ -3,8 +3,9 @@ package com.github.dfc;
 public class Node {
 	private String hostname;
 	private int port;
-	public Node(String name){
+	public Node(String name, int port){
 		this.hostname = name;
+		this.port = port;
 	}
 	
 	public String getHostname() {

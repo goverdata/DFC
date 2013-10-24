@@ -1,8 +1,10 @@
 package com.github.dfc.utils;
 
+import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.Socket;
@@ -16,6 +18,7 @@ import org.apache.commons.logging.Log;
 
 public class IOUtils {
 
+	
 	/**
 	 * Copies from one stream to another.
 	 * 
@@ -178,6 +181,10 @@ public class IOUtils {
 		}
 	}
 
+	
+	public static BufferedReader wrappedReader(InputStream in) throws IOException {
+		return new BufferedReader(new InputStreamReader(in));
+	}
 	/**
 	 * Reads len bytes in a loop.
 	 * 

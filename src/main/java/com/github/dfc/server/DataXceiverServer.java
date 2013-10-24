@@ -7,6 +7,10 @@ import com.github.io.bio.BioTcpServer;
 
 public class DataXceiverServer extends BioTcpServer{
 	
+	public DataXceiverServer(String hostname, int port) {
+		super(hostname, port);
+	}
+
 	@Override
 	public Handler getHandler(Socket socket){
 		return new DataXceiver(socket);
