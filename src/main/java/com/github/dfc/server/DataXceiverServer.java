@@ -6,6 +6,7 @@ import com.github.io.Handler;
 import com.github.io.bio.BioTcpServer;
 
 public class DataXceiverServer extends BioTcpServer{
+	private int poolSize = 2;
 	
 	public DataXceiverServer(String hostname, int port) {
 		super(hostname, port);
@@ -14,5 +15,10 @@ public class DataXceiverServer extends BioTcpServer{
 	@Override
 	public Handler getHandler(Socket socket){
 		return new DataXceiver(socket);
+	}
+
+	@Override
+	public int getPoolSize() {
+		return poolSize;
 	}
 }

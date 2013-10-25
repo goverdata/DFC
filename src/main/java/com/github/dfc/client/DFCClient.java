@@ -10,6 +10,7 @@ import com.github.dfc.HashAlgorithm;
 import com.github.dfc.KetamaNodeLocator;
 import com.github.dfc.Node;
 import com.github.dfc.protocol.DataTransferProtocol;
+import com.github.dfc.protocol.Op;
 
 public class DFCClient {
 
@@ -22,9 +23,13 @@ public class DFCClient {
 
 		Socket socket = new Socket(server.getHostname(), server.getPort());
 		DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+		// Write version(short)
 		out.writeShort(DataTransferProtocol.DATA_TRANSFER_VERSION);
-		DataTransferProtocol.Op.READ_FILE.write(out);
-		out.write(file.getBytes());
+		// Write Op(byte)
+		Op.READ_FILE.write(out);
+		// Write file path
+		out.writeChars(file);
+		
 		out.flush();
 		return socket.getInputStream();
 	}

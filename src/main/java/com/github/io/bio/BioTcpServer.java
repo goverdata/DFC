@@ -9,15 +9,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.github.io.Handler;
-import com.github.io.Server;
+import com.github.io.IOServer;
 
-public abstract class BioTcpServer implements Server{
+public abstract class BioTcpServer implements IOServer {
 	ExecutorService executor;
 	ServerSocket serverSocket;
-	int poolSize = 3;
-	public BioTcpServer(String hostname, int port){
+
+	public BioTcpServer(String hostname, int port) {
 		int core = Runtime.getRuntime().availableProcessors();
-		executor = Executors.newFixedThreadPool(core * poolSize);
+		executor = Executors.newFixedThreadPool(core * getPoolSize());
 		try {
 			serverSocket = new ServerSocket();
 			SocketAddress aaa = new InetSocketAddress(hostname, port);
@@ -26,15 +26,15 @@ public abstract class BioTcpServer implements Server{
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
-	public void stop(){
-		//TODO
+	public void stop() {
+		// TODO
 	}
-	
+
 	@Override
-	public void start(){
-		while(true){
+	public void start() {
+		while (true) {
 			Socket socket = null;
 			try {
 				socket = serverSocket.accept();
@@ -44,6 +44,8 @@ public abstract class BioTcpServer implements Server{
 			}
 		}
 	}
-	
+
 	public abstract Handler getHandler(Socket socket);
+
+	public abstract int getPoolSize();
 }

@@ -11,7 +11,7 @@ import java.net.Socket;
 
 
 import com.github.dfc.protocol.DataTransferProtocol;
-import com.github.dfc.protocol.DataTransferProtocol.Op;
+import com.github.dfc.protocol.Op;
 import com.github.dfc.utils.IOUtils;
 import com.github.dfc.utils.NetUtils;
 import com.github.io.Handler;
@@ -27,8 +27,7 @@ public class DataXceiver extends DataTransferProtocol.Receiver implements Handle
 
 	@Override
 	public void run() {
-		//in = NetUtils.getInputStream(clientSocket);
-		String msg = null;
+		/*String msg = null;
 		BufferedReader reader;
 		try {
 			reader = IOUtils.wrappedReader(clientSocket.getInputStream());
@@ -39,12 +38,14 @@ public class DataXceiver extends DataTransferProtocol.Receiver implements Handle
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}
+		}*/
 		
+		in = new DataInputStream(NetUtils.getInputStream(clientSocket));
 		out = new DataOutputStream(NetUtils.getOutputStream(clientSocket));
-		Op op;
 		try {
-			op = readOp(in);
+//			System.out.println(in.readShort());
+//			System.out.println(in.readByte());
+			Op op = readOp(in);
 			processOp(op, in);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
