@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public interface DataTransferProtocol {
 	
-	public static final short VERSION = 1;
+	public static final short DATA_TRANSFER_VERSION = 1;
 	
 	/** Operation */
 	public enum Op {
@@ -42,7 +42,7 @@ public interface DataTransferProtocol {
 
 		/** Write to out */
 		public void write(DataOutput out) throws IOException {
-			out.write(code);
+			out.writeByte(code);
 		}
 	};
 
@@ -51,17 +51,21 @@ public interface DataTransferProtocol {
 		/** Read an Op. It also checks protocol version. */
 		protected final Op readOp(DataInputStream in) throws IOException {
 			final short version = in.readShort();
-//			if (version != DATA_TRANSFER_VERSION) {
-//				throw new IOException("Version Mismatch (Expected: "
-//						+ DataTransferProtocol.DATA_TRANSFER_VERSION
-//						+ ", Received: " + version + " )");
-//			}
+			if (version != DATA_TRANSFER_VERSION) {
+				throw new IOException("Version Mismatch (Expected: "
+						+ DataTransferProtocol.DATA_TRANSFER_VERSION
+						+ ", Received: " + version + " )");
+			}
 			return Op.read(in);
 		}
 
 		/** Process op by the corresponding method. */
 		protected final void processOp(Op op, DataInputStream in)
 				throws IOException {
+			if(op == null){
+				return;
+			}
+			
 			switch (op) {
 			case READ_BLOCK:
 				opReadBlock(in);

@@ -2,9 +2,9 @@ package com.github.dfc.server;
 
 import com.github.dfc.Node;
 
-public class Server extends Node{
+public class DataNode extends Node{
 	DataXceiverServer dataServer;
-	public Server(String hostname, int port) {
+	public DataNode(String hostname, int port) {
 		super(hostname, port);
 		dataServer = new DataXceiverServer(hostname, port);
 	}
@@ -14,7 +14,7 @@ public class Server extends Node{
 	}
 
 	public static void main(String[] args) {
-		Server server = new Server("localhost", 50088);
+		DataNode server = new DataNode("localhost", 50088);
 		server.start();
 	}
 }
