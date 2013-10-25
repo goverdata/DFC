@@ -26,9 +26,10 @@ public class DFCClient {
 		// Write version(short)
 		out.writeShort(DataTransferProtocol.DATA_TRANSFER_VERSION);
 		// Write Op(byte)
-		Op.READ_FILE.write(out);
+		//Op.READ_FILE.write(out);
 		// Write file path
-		out.writeChars(file);
+		//out.writeChars(file);
+		//out.write(file.getBytes());
 		
 		out.flush();
 		return socket.getInputStream();

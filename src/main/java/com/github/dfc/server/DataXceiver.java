@@ -43,12 +43,13 @@ public class DataXceiver extends DataTransferProtocol.Receiver implements Handle
 		in = new DataInputStream(NetUtils.getInputStream(clientSocket));
 		out = new DataOutputStream(NetUtils.getOutputStream(clientSocket));
 		try {
-//			System.out.println(in.readShort());
-//			System.out.println(in.readByte());
+			in.mark(1000);
+			System.out.println(in.readShort());
+			System.out.println(in.readByte());
+			in.reset();
 			Op op = readOp(in);
 			processOp(op, in);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
