@@ -43,11 +43,15 @@ public class DataXceiver extends DataTransferProtocol.Receiver implements Handle
 		in = new DataInputStream(NetUtils.getInputStream(clientSocket));
 		out = new DataOutputStream(NetUtils.getOutputStream(clientSocket));
 		try {
-			in.mark(1000);
+			/*in.mark(1000);
 			System.out.println(in.readShort());
 			System.out.println(in.readByte());
-			in.reset();
+			in.reset();*/
+//			final short version = in.readShort();
+//			System.out.println(version);
 			Op op = readOp(in);
+//			byte xxx = in.readByte();
+//			Op op = Op.valueOf(xxx);
 			processOp(op, in);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -63,9 +67,12 @@ public class DataXceiver extends DataTransferProtocol.Receiver implements Handle
 
 	@Override
 	protected void opReadFile(DataInputStream in) {
-		BufferedReader bin = new BufferedReader(new InputStreamReader(in));
 		try {
-			String filePath = bin.readLine();
+			int filePathLength = in.read();
+			byte[] filePathBuf = new byte[filePathLength];
+			in.read(filePathBuf, 0 , filePathLength);
+			
+			String filePath = new String(filePathBuf);
 			File file = new File(filePath);
 			FileInputStream fin = new FileInputStream(file);
 			IOUtils.copy(fin, out);

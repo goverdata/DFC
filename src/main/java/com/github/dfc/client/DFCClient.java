@@ -16,7 +16,7 @@ public class DFCClient {
 
 	private static final Integer VIRTUAL_NODE_COUNT = 160;
 
-	public InputStream reade(String file) throws UnknownHostException,
+	public InputStream read(String file) throws UnknownHostException,
 			IOException {
 		KetamaNodeLocator locator = new KetamaNodeLocator(HashAlgorithm.KETAMA_HASH, VIRTUAL_NODE_COUNT);
 		Node server = locator.getPrimary(file);
@@ -26,12 +26,20 @@ public class DFCClient {
 		// Write version(short)
 		out.writeShort(DataTransferProtocol.DATA_TRANSFER_VERSION);
 		// Write Op(byte)
-		//Op.READ_FILE.write(out);
+		Op.READ_FILE.write(out);
 		// Write file path
 		//out.writeChars(file);
-		//out.write(file.getBytes());
+		byte[] filePathBytes = file.getBytes();
+		out.write(filePathBytes.length);
+		out.write(filePathBytes);
 		
 		out.flush();
 		return socket.getInputStream();
+	}
+	
+	public static void main(String[] args){
+		for(int i =0 ; i < 255 ;i++){
+			System.out.print("a");
+		}
 	}
 }

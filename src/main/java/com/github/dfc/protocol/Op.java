@@ -8,8 +8,8 @@ import java.io.IOException;
 public enum Op {
 	WRITE_BLOCK((byte) 80), 
 	READ_BLOCK((byte) 81), 
-	WRITE_FILE((byte) 86), 
-	READ_FILE((byte) 87);
+	WRITE_FILE((byte) 82), 
+	READ_FILE((byte) 83);
 	// READ_METADATA((byte)82),
 	// REPLACE_BLOCK((byte)83),
 	// COPY_BLOCK((byte)84),
