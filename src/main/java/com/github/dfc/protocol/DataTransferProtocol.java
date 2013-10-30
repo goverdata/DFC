@@ -6,6 +6,7 @@ import java.io.IOException;
 public interface DataTransferProtocol {
 
 	public static final short DATA_TRANSFER_VERSION = 1;
+	public static final long DEFAULT_BLOCK_SIZE = 64*1024*1024;
 
 	/** Receiver */
 	public static abstract class Receiver {
