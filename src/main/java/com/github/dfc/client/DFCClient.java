@@ -3,6 +3,7 @@ package com.github.dfc.client;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -37,9 +38,23 @@ public class DFCClient {
 		return socket.getInputStream();
 	}
 	
-	public static void main(String[] args){
-		for(int i =0 ; i < 255 ;i++){
-			System.out.print("a");
-		}
+	public OutputStream open(String file) throws UnknownHostException,
+	IOException {
+		KetamaNodeLocator locator = new KetamaNodeLocator(HashAlgorithm.KETAMA_HASH, VIRTUAL_NODE_COUNT);
+		Node server = locator.getPrimary(file);
+		
+		Socket socket = new Socket(server.getHostname(), server.getPort());
+		DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+		// Write version(short)
+		out.writeShort(DataTransferProtocol.DATA_TRANSFER_VERSION);
+		// Write Op(byte)
+		Op.WRITE_FILE.write(out);
+		// Write file path
+		//out.writeChars(file);
+		byte[] filePathBytes = file.getBytes();
+		out.write(filePathBytes.length);
+		out.write(filePathBytes);
+		
+		return out;
 	}
 }

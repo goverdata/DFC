@@ -1,9 +1,7 @@
 package com.github.dfc.utils;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.EOFException;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -340,10 +338,5 @@ public class IOUtils {
 		do {
 			offset += fc.write(buf, offset);
 		} while (buf.remaining() > 0);
-	}
-
-	public static void copy(FileInputStream fin, DataOutputStream out) {
-		// TODO Auto-generated method stub
-		
 	}
 }

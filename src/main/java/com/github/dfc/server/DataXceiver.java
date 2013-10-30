@@ -1,14 +1,12 @@
 package com.github.dfc.server;
 
-import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.Socket;
-
 
 import com.github.dfc.protocol.DataTransferProtocol;
 import com.github.dfc.protocol.Op;
@@ -27,31 +25,10 @@ public class DataXceiver extends DataTransferProtocol.Receiver implements Handle
 
 	@Override
 	public void run() {
-		/*String msg = null;
-		BufferedReader reader;
-		try {
-			reader = IOUtils.wrappedReader(clientSocket.getInputStream());
-			while((msg = reader.readLine()) != null){
-				System.out.println(msg);
-			}
-			return;
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}*/
-		
 		in = new DataInputStream(NetUtils.getInputStream(clientSocket));
 		out = new DataOutputStream(NetUtils.getOutputStream(clientSocket));
 		try {
-			/*in.mark(1000);
-			System.out.println(in.readShort());
-			System.out.println(in.readByte());
-			in.reset();*/
-//			final short version = in.readShort();
-//			System.out.println(version);
 			Op op = readOp(in);
-//			byte xxx = in.readByte();
-//			Op op = Op.valueOf(xxx);
 			processOp(op, in);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -75,7 +52,7 @@ public class DataXceiver extends DataTransferProtocol.Receiver implements Handle
 			String filePath = new String(filePathBuf);
 			File file = new File(filePath);
 			FileInputStream fin = new FileInputStream(file);
-			IOUtils.copy(fin, out);
+			IOUtils.copyBytes(fin, out, 1024, true);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -83,8 +60,24 @@ public class DataXceiver extends DataTransferProtocol.Receiver implements Handle
 
 	@Override
 	protected void opWriteFile(DataInputStream in) {
-		// TODO Auto-generated method stub
-		
+		try {
+			int filePathLength = in.read();
+			byte[] filePathBuf = new byte[filePathLength];
+			in.read(filePathBuf, 0 , filePathLength);
+			
+			String filePath = new String(filePathBuf);
+			File file = new File(filePath);
+			if(file.exists()){
+				return;
+			}
+			if(!file.getParentFile().exists()){
+				file.getParentFile().mkdir();
+			}
+			file.createNewFile();
+			IOUtils.copyBytes(in, new FileOutputStream(file), 1024, true);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
