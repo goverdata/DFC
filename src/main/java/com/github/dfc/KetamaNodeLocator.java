@@ -6,12 +6,13 @@ import java.util.TreeMap;
 
 import com.github.dfc.utils.Context;
 
-public final class KetamaNodeLocator {
+public final class KetamaNodeLocator extends CommonNodeLocator{
 
 	private TreeMap<Long, Node> ketamaNodes;
 	private HashAlgorithm hashAlg;
 	private int numReps = 160;
 	public static final String SERVER_FILE = "server.properties";
+	
 	public KetamaNodeLocator(HashAlgorithm alg, int nodeCopies) {
 		hashAlg = alg;
 		ketamaNodes = new TreeMap<Long, Node>();
@@ -40,9 +41,9 @@ public final class KetamaNodeLocator {
 		return nodes;
 	}
 
-	public Node getPrimary(final String k) {
-		byte[] digest = hashAlg.computeMd5(k);
-		Node rv = getNodeByKey(hashAlg.hash(digest, 0));
+	@Override
+	public Node getNode(final String filePath) {
+		Node rv = getNodeByKey(getPathHash(hashAlg, filePath));
 		return rv;
 	}
 

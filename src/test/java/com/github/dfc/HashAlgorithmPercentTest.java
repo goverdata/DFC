@@ -67,7 +67,7 @@ public class HashAlgorithmPercentTest {
 		KetamaNodeLocator locator = new KetamaNodeLocator(nodes, HashAlgorithm.KETAMA_HASH, VIRTUAL_NODE_COUNT);
 		
 		for (Map.Entry<String, List<Node>> entry : map.entrySet()) {
-			Node node = locator.getPrimary(entry.getKey());
+			Node node = locator.getNode(entry.getKey());
 			
 			if (node != null) {
 				List<Node> list = entry.getValue();

@@ -8,6 +8,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+import com.github.common.conf.ConfigurationManager;
+import com.github.common.conf.GitConfiguration;
+import com.github.dfc.CommonNodeLocator;
+import com.github.dfc.HashAlgorithm;
 import com.github.dfc.protocol.DataTransferProtocol;
 import com.github.dfc.protocol.Op;
 import com.github.dfc.utils.IOUtils;
@@ -15,6 +19,10 @@ import com.github.dfc.utils.NetUtils;
 import com.github.io.Handler;
 
 public class DataXceiver extends DataTransferProtocol.Receiver implements Handler {
+	static GitConfiguration conf = ConfigurationManager.getDefaultConfig();
+	private static final String DEFAULT_DATA_DIR = "/spare/dfc/dn/";
+	private static final String DATA_DIR = conf.getValue("datanode.data.dir", DEFAULT_DATA_DIR);
+
 	Socket clientSocket;
 	DataInputStream in;
 	DataOutputStream out;
@@ -66,6 +74,9 @@ public class DataXceiver extends DataTransferProtocol.Receiver implements Handle
 			in.read(filePathBuf, 0 , filePathLength);
 			
 			String filePath = new String(filePathBuf);
+			long fileHashcode = CommonNodeLocator.getPathHash(HashAlgorithm.KETAMA_HASH, filePath);
+			
+			
 			File file = new File(filePath);
 			if(file.exists()){
 				return;

@@ -27,7 +27,7 @@ public class HashAlgorithmTest {
 		
 		List<String> allKeys = test.getAllStrings();
 		for (String key : allKeys) {
-			Node node = locator.getPrimary(key);
+			Node node = locator.getNode(key);
 			
 			Integer times = nodeRecord.get(node);
 			if (times == null) {
