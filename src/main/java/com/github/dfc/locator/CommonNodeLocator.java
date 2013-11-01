@@ -1,4 +1,6 @@
-package com.github.dfc;
+package com.github.dfc.locator;
+
+import com.github.dfc.HashAlgorithm;
 
 public abstract class CommonNodeLocator implements NodeLocator{
 	

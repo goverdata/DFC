@@ -1,25 +1,33 @@
-package com.github.dfc;
+package com.github.dfc.locator;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
+import com.github.dfc.CacheNode;
+import com.github.dfc.HashAlgorithm;
+import com.github.dfc.Node;
 import com.github.dfc.utils.Context;
 
-public final class KetamaNodeLocator extends CommonNodeLocator{
+/**
+ * Old KetamaNodeLocator: just for backup
+ * @author hadoop
+ *
+ */
+public final class KetamaNodeLocator1 extends CommonNodeLocator{
 
 	private TreeMap<Long, Node> ketamaNodes;
 	private HashAlgorithm hashAlg;
 	private int numReps = 160;
 	public static final String SERVER_FILE = "server.properties";
 	
-	public KetamaNodeLocator(HashAlgorithm alg, int nodeCopies) {
+	public KetamaNodeLocator1(HashAlgorithm alg, int nodeCopies) {
 		hashAlg = alg;
 		ketamaNodes = new TreeMap<Long, Node>();
 		numReps = nodeCopies;
 		for (Node node : getNodes()) {
 			for (int i = 0; i < numReps / 4; i++) {
-				byte[] md5 = hashAlg.computeMd5(node.getHostname() + i);
+				byte[] md5 = hashAlg.computeMd5(node.getName() + i);
 				for (int h = 0; h < 4; h++) {
 					long m = hashAlg.hash(md5, h);
 					ketamaNodes.put(m, node);
@@ -34,14 +42,13 @@ public final class KetamaNodeLocator extends CommonNodeLocator{
 		for (String server : serverList) {
 			String hostname = server.split(":")[0];
 			int port = Integer.valueOf(server.split(":")[1]);
-			Node node = new Node(hostname, port);
+			Node node = new Node(hostname);
 			nodes.add(node);
 		}
 		
 		return nodes;
 	}
 
-	@Override
 	public Node getNode(final String filePath) {
 		Node rv = getNodeByKey(getPathHash(hashAlg, filePath));
 		return rv;
@@ -66,5 +73,11 @@ public final class KetamaNodeLocator extends CommonNodeLocator{
 		}
 		rv = ketamaNodes.get(key);
 		return rv;
+	}
+
+	@Override
+	public CacheNode getCacheNode(String filePath) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

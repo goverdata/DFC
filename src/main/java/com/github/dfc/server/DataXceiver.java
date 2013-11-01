@@ -10,8 +10,8 @@ import java.net.Socket;
 
 import com.github.common.conf.ConfigurationManager;
 import com.github.common.conf.GitConfiguration;
-import com.github.dfc.CommonNodeLocator;
 import com.github.dfc.HashAlgorithm;
+import com.github.dfc.locator.CommonNodeLocator;
 import com.github.dfc.protocol.DataTransferProtocol;
 import com.github.dfc.protocol.Op;
 import com.github.dfc.utils.IOUtils;

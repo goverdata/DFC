@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import com.github.dfc.locator.KetamaNodeLocator1;
+
 public class HashAlgorithmPercentTest {
 
 	static Random ran = new Random();
@@ -64,10 +66,10 @@ public class HashAlgorithmPercentTest {
 	}
 	
 	private static void call(List<Node> nodes, Map<String, List<Node>> map) {
-		KetamaNodeLocator locator = new KetamaNodeLocator(nodes, HashAlgorithm.KETAMA_HASH, VIRTUAL_NODE_COUNT);
+		KetamaNodeLocator1 locator = new KetamaNodeLocator1(nodes, HashAlgorithm.KETAMA_HASH, VIRTUAL_NODE_COUNT);
 		
 		for (Map.Entry<String, List<Node>> entry : map.entrySet()) {
-			Node node = locator.getNode(entry.getKey());
+			Node node = locator.getCacheNode(entry.getKey());
 			
 			if (node != null) {
 				List<Node> list = entry.getValue();

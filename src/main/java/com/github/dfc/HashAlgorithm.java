@@ -6,9 +6,9 @@ import java.security.NoSuchAlgorithmException;
 
 public enum HashAlgorithm {
 
-	/**
-	 * MD5-based hash algorithm used by ketama.
-	 */
+//	/**
+//	 * MD5-based hash algorithm used by ketama.
+//	 */
 	KETAMA_HASH;
 
 	public long hash(byte[] digest, int nTime) {
@@ -40,6 +40,11 @@ public enum HashAlgorithm {
 		
 		md5.update(keyBytes);
 		return md5.digest();
+	}
+	
+	
+	public static void main(String[] args){
+		System.out.println(HashAlgorithm.KETAMA_HASH.hash(HashAlgorithm.KETAMA_HASH.computeMd5("/a/b/b/c") , 0));
 	}
 }
 

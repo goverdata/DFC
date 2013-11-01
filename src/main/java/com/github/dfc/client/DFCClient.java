@@ -6,12 +6,15 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.List;
 
+import com.github.dfc.CacheNode;
 import com.github.dfc.HashAlgorithm;
-import com.github.dfc.KetamaNodeLocator;
-import com.github.dfc.Node;
+import com.github.dfc.locator.KetamaNodeLocator2;
 import com.github.dfc.protocol.DataTransferProtocol;
 import com.github.dfc.protocol.Op;
+import com.github.dfc.server.DataNode;
+import com.github.dfc.server.Partition;
 
 public class DFCClient {
 
@@ -19,10 +22,14 @@ public class DFCClient {
 
 	public InputStream read(String file) throws UnknownHostException,
 			IOException {
-		KetamaNodeLocator locator = new KetamaNodeLocator(HashAlgorithm.KETAMA_HASH, VIRTUAL_NODE_COUNT);
-		Node server = locator.getNode(file);
+		KetamaNodeLocator2 locator = new KetamaNodeLocator2(HashAlgorithm.KETAMA_HASH);
+		CacheNode cacheNode = locator.getCacheNode(file);
 
-		Socket socket = new Socket(server.getHostname(), server.getPort());
+		//
+		List<Partition> partitionList = cacheNode.getPartitions();
+		DataNode dn = partitionList.get(0).getDataNode();
+		
+		Socket socket = new Socket(dn.getHostname(), dn.getPort());
 		DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 		// Write version(short)
 		out.writeShort(DataTransferProtocol.DATA_TRANSFER_VERSION);
@@ -40,10 +47,14 @@ public class DFCClient {
 	
 	public OutputStream open(String file) throws UnknownHostException,
 	IOException {
-		KetamaNodeLocator locator = new KetamaNodeLocator(HashAlgorithm.KETAMA_HASH, VIRTUAL_NODE_COUNT);
-		Node server = locator.getNode(file);
+		KetamaNodeLocator2 locator = new KetamaNodeLocator2(HashAlgorithm.KETAMA_HASH);
+		CacheNode cacheNode = locator.getCacheNode(file);
+
+		//
+		List<Partition> partitionList = cacheNode.getPartitions();
+		DataNode dn = partitionList.get(0).getDataNode();
 		
-		Socket socket = new Socket(server.getHostname(), server.getPort());
+		Socket socket = new Socket(dn.getHostname(), dn.getPort());
 		DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 		// Write version(short)
 		out.writeShort(DataTransferProtocol.DATA_TRANSFER_VERSION);

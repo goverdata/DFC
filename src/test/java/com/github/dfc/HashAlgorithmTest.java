@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import com.github.dfc.locator.KetamaNodeLocator1;
+
 public class HashAlgorithmTest {
 
 	static Random ran = new Random();
@@ -23,11 +25,11 @@ public class HashAlgorithmTest {
 		Map<Node, Integer> nodeRecord = new HashMap<Node, Integer>();
 		
 		List<Node> allNodes = test.getNodes(NODE_COUNT);
-		KetamaNodeLocator locator = new KetamaNodeLocator(allNodes, HashAlgorithm.KETAMA_HASH, VIRTUAL_NODE_COUNT);
+		KetamaNodeLocator1 locator = new KetamaNodeLocator1(allNodes, HashAlgorithm.KETAMA_HASH, VIRTUAL_NODE_COUNT);
 		
 		List<String> allKeys = test.getAllStrings();
 		for (String key : allKeys) {
-			Node node = locator.getNode(key);
+			Node node = locator.getCacheNode(key);
 			
 			Integer times = nodeRecord.get(node);
 			if (times == null) {

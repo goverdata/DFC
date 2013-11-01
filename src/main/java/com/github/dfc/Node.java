@@ -1,27 +1,18 @@
 package com.github.dfc;
 
 public class Node {
-	private String hostname;
-	private int port;
-	public Node(String name, int port){
-		this.hostname = name;
-		this.port = port;
-	}
-	
-	public String getHostname() {
-		return hostname;
+	private String name;
+
+	public Node(String name) {
+		this.name = name;
 	}
 
-	public void setHostname(String name) {
-		this.hostname = name;
+	public String getName() {
+		return name;
 	}
 
-	public int getPort() {
-		return port;
-	}
-
-	public void setPort(int port) {
-		this.port = port;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }
